@@ -24,6 +24,11 @@ def add():
     add_recipe(recipe["title"], recipe["ingredients"])
     return "Successfully added recipe"
 
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 10
+    return response
+
 
 def add_recipe(recipe_name, ingredients):
     # api.add_item(recipe_name, project_id=shopping_project_id, indent=1)
