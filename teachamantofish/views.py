@@ -9,6 +9,10 @@ def img(path):
 def css(path):
     return send_from_directory("static/css", path)
 
+@app.route("/fonts/<path:path>")
+def fonts(path):
+    return send_from_directory("static/fonts", path)
+
 @app.route("/")
 def root():
     return render_template("home.html", recipes=RECIPES*30)
