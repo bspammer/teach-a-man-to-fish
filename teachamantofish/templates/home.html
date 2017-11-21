@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/home.css">
+    </head>
+    <body>
+        <ul>
+            {% for recipe in recipes %}
+            <li class="recipe-item" data-recipeid="{{ recipe['recipe_id'] }}">
+                <a class="nounderline" href="#">
+                    <img class="recipe-img" src="{{ recipe['img_url'] }}" />
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <script>
+        function get(url) {
+            return new Promise(function(resolve, reject) {
+                var req = new XMLHttpRequest();
+                req.open('GET', url);
+                req.onload = function() {
+                    if (req.status == 200) {
+                        resolve(req.response);
+                    }
+                    else {
+                        reject(Error(req.statusText));
+                    }
+                };
+                req.onerror = function() {
+                    reject(Error("Network Error"));
+                };
+                req.send();
+            });
+        }
+        recipeItems = document.getElementsByClassName("recipe-item");
+        for (var i=0; i < recipeItems.length; i++) {
+            item = recipeItems[i];
+            item.addEventListener("click", bindClick(item.dataset.recipeid));
+        }
+        function bindClick(id) {
+            return function() {
+                get("/add?recipeid=" + id).then(function(response) {
+                    console.log("Yay!", response);
+                }, function(error) {
+                    console.log("Awww...", error);
+                })
+            };
+        }
+        </script>
+    </body>
+</html>

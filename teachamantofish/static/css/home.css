@@ -1,0 +1,30 @@
+body {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.recipe-item {
+    display: inline;
+}
+
+.recipe-img {
+    width: 200px;
+    height: 200px;
+    margin: 5px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #888888;
+    opacity:0.8
+}
+
+.recipe-img:hover {
+    opacity: 1;
+    border-color: #666666;
+}
+
+.nounderline {
+    text-decoration: none;
+}

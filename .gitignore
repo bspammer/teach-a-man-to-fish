@@ -1,0 +1,5 @@
+env/
+teachamantofish/__pycache__
+teachamantofish/private
+*.pyc
+*.swp
