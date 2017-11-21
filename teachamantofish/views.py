@@ -11,7 +11,7 @@ def css(path):
 
 @app.route("/")
 def root():
-    return render_template("home.html", recipes=RECIPES)
+    return render_template("home.html", recipes=RECIPES*30)
 
 @app.route("/add")
 def add():
@@ -66,6 +66,19 @@ RECIPES = [
                 "2 tsps rogan josh curry paste",
                 "100g paneer cheese",
                 "200g baby spinach",
+                ]
+        },
+        {
+            "title": "Ham & Egg Curried Noodles p259",
+            "nice_title": "Ham & Egg Curried Noodles",
+            "img_url": "/img/hamandeggcurriednoodles.jpg",
+            "recipe_id": 3,
+            "ingredients": [
+                "150g egg noodles",
+                "4 spring onions",
+                "100g roast ham",
+                "2 teaspoons curry powder",
+                "2 large eggs",
                 ]
         },
     ]
