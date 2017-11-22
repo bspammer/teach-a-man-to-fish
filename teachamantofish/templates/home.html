@@ -4,17 +4,18 @@
     </head>
     <body>
         <div id="content">
-            <h1 id="heading">COOK YOU LAZY BASTARD</h1>
+            <h1 id="heading">Teach a man to fish</h1>
             <ul>
                 {% for recipe in recipes %}
-                <li class="recipe-item" data-recipeid="{{ recipe['recipe_id'] }}" data-title="{{ recipe['nice_title'] }}">
+                <li class="recipe-item" data-recipeid="{{ recipe['recipe_id'] }}" data-title="{{ recipe['nice_title'] }}" data-ingredients="{{ recipe['ingredients'] }}">
                     <a class="nounderline" href="#">
                         <img class="recipe-img" src="{{ recipe['img_url'] }}" />
                     </a>
                 </li>
                 {% endfor %}
             </ul>
-            <div id="recipe-title-display"></div>
+            <div id="recipe-display">
+            </div>
             <script>
             function get(url) {
                 return new Promise(function(resolve, reject) {
@@ -35,11 +36,17 @@
                 });
             }
             recipeItems = document.getElementsByClassName("recipe-item");
-            titleDisplay = document.getElementById("recipe-title-display");
+            recipeDisplay = document.getElementById("recipe-display");
+            recipeDisplayTitle = document.createElement("p");
+            recipeDisplayTitle.classList.add("recipe-display-title");
+            recipeDisplay.appendChild(recipeDisplayTitle);
             for (var i=0; i < recipeItems.length; i++) {
                 item = recipeItems[i];
                 item.addEventListener("click", bindClick(item));
-                item.addEventListener("mouseover", bindHover(item.dataset.title));
+                var ingredients = item.dataset.ingredients.split("'").join("\"");
+                ingredients = "{\"ingredients\":" + ingredients + "}";
+                ingredients = JSON.parse(ingredients).ingredients;
+                item.addEventListener("mouseover", bindHover(item.dataset.title, ingredients));
             }
             function bindClick(item) {
                 return function() {
@@ -57,10 +64,20 @@
                     item.firstElementChild.firstElementChild.classList.add("selected");
                 };
             }
-            function bindHover(title) {
+            function bindHover(title, ingredients) {
                 return function() {
-                    titleDisplay.textContent = title;
-                    titleDisplay.style.display = "block";
+                    recipeDisplay.style.display = "block";
+                    recipeDisplayTitle.textContent = title;
+                    old = document.getElementsByClassName("recipe-display-ingredient");
+                    while(old[0]) {
+                            old[0].parentNode.removeChild(old[0]);
+                    }
+                    for (var i=0; i<ingredients.length; i++) {
+                        var ingredient = document.createElement("p");
+                        ingredient.classList.add("recipe-display-ingredient");
+                        ingredient.textContent = "- " + ingredients[i];
+                        recipeDisplay.appendChild(ingredient);
+                    }
                 }
             }
             </script>
